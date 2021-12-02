@@ -1,3 +1,3 @@
-module github.com/DirtyBull/inscope
+module github.com/dirtybull/inscope
 
 go 1.17
