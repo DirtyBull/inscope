@@ -18,7 +18,8 @@ func init() {
 			"Filter out domains/urls not in scope",
 			"",
 			"Options:",
-			"  -pwd <path>  The workspace (default current workspace if not specified)",
+			"  -pwd <path>       The workspace (default current workspace if not specified)",
+			"  -osp, --out-scope Show out-scope items only",
 			"",
 		}
 
@@ -34,6 +35,11 @@ func main() {
 	}
 
 	flag.StringVar(&pwd, "pwd", pwd, "")
+
+	var showOutScope bool
+	var isInScope bool
+	flag.BoolVar(&showOutScope, "osp", false, "")
+	flag.BoolVar(&showOutScope, "out-scope", false, "")
 
 	flag.Parse()
 
@@ -54,10 +60,11 @@ func main() {
 	for sc.Scan() {
 		domain := strings.TrimSpace(sc.Text())
 
-		if checker.inScope(domain) {
+		isInScope = checker.inScope(domain)
+
+		if (isInScope && !showOutScope) || (!isInScope && showOutScope) {
 			fmt.Println(domain)
 		}
-
 	}
 }
 
